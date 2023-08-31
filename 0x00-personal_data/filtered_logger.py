@@ -6,6 +6,10 @@ from typing import List, Tuple
 
 import logging
 
+import mysql.connector.connection
+
+import os
+
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
@@ -47,3 +51,17 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(RedactingFormatter(fields=PII_FIELDS))
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Returns a connector to the database"""
+    db_config = {
+        'user': os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        'password': os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        'host': os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        'database': os.getenv('PERSONAL_DATA_DB_NAME')
+    }
+
+    db_connection = mysql.connector.connect(**db_config)
+
+    return db_connection
