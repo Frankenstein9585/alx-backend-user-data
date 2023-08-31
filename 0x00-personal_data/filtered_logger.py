@@ -2,10 +2,11 @@
 """Filtered Logger Module"""
 import re
 
-from typing import List, Tuple
+from typing import List, Tuple, ByteString
 
 import logging
 
+import bcrypt
 import mysql.connector.connection
 
 import os
@@ -82,6 +83,10 @@ def main() -> None:
         logger.info(fields)
     cursor.close()
     db.close()
+
+
+def hash_password(password: str) -> ByteString:
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 
 if __name__ == '__main__':
