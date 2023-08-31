@@ -69,6 +69,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main() -> None:
+    """Main Function"""
     db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
@@ -83,10 +84,6 @@ def main() -> None:
         logger.info(fields)
     cursor.close()
     db.close()
-
-
-def hash_password(password: str) -> ByteString:
-    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 
 if __name__ == '__main__':
