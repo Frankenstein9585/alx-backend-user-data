@@ -41,6 +41,7 @@ def not_found(error) -> str:
 
 @app.before_request
 def before_request():
+    """This method runs before the request is handled"""
     if not auth:
         return
     if not auth.require_auth(request.path, excluded_paths):
