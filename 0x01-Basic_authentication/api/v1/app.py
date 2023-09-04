@@ -16,19 +16,19 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 @app.errorhandler(401)
-def unauthorized(error) -> tuple[Response, int]:
+def unauthorized(error) -> str:
     """401 error handler"""
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
-def forbidden(error) -> tuple[Response, int]:
+def forbidden(error) -> str:
     """403 error handler"""
     return jsonify({"error": "Forbidden"}), 403
 
 
 @app.errorhandler(404)
-def not_found(error) -> tuple[Response, int]:
+def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
