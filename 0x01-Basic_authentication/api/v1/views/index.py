@@ -27,12 +27,12 @@ def stats() -> str:
 
 
 @app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
-def unauthorized_401() -> None:
+def unauthorized_401():
     """Route for 401 error"""
     abort(401)
 
 
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
-def unauthorized_403() -> None:
+def unauthorized_403():
     """Route for 403 error"""
     abort(403)
