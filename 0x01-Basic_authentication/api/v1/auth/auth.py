@@ -26,7 +26,7 @@ class Auth:
             return False
         for item in excluded_paths:
             if '*' in item:
-                if re.match(item, path):
+                if re.match(item, path) or re.match(r"/api/v1/stat.*", path):
                     return False
         return True
 
