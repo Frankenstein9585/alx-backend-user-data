@@ -4,6 +4,7 @@ from flask import request
 from typing import List, TypeVar
 
 from models.user import User
+import re
 
 
 class Auth:
@@ -23,6 +24,10 @@ class Auth:
             return True
         if path in excluded_paths:
             return False
+        for item in excluded_paths:
+            if '*' in item:
+                if re.match(item, path):
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
