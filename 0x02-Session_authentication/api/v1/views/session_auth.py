@@ -9,7 +9,7 @@ from models.user import User
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
-    """Handles Session Authentication"""
+    """Handles Session Authentication (Login)"""
     email = request.form.get('email')
     password = request.form.get('password')
     if not email or email == '':
@@ -32,3 +32,13 @@ def login():
     response = jsonify(user.to_json())
     response.set_cookie(os.getenv('SESSION_NAME'), _my_session_id)
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """Handles Session Authentication (Login)"""
+    from api.v1.app import auth
+    if auth.destroy_session(request) is False:
+        abort(404)
+    return jsonify({}), 200
