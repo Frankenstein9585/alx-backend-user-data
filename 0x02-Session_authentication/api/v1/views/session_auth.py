@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""This file contains a routes that handle session authentication"""
 import os
 
 from api.v1.views import app_views
