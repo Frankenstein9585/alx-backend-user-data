@@ -46,7 +46,7 @@ class Auth:
         return None
 
     def session_cookie(self, request=None):
-        """returns a cookie value froma request"""
+        """returns a cookie value from a request"""
         if not request:
             return None
         return request.cookies.get(os.getenv('SESSION_NAME'))
