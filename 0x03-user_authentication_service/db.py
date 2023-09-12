@@ -2,12 +2,14 @@
 """
 DB module
 """
-from typing import TypeVar
+from typing import TypeVar, Type
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -39,3 +41,13 @@ class DB:
         self._session.add(user_)
         self._session.commit()
         return user_
+
+    def find_user_by(self, **kwargs) -> User:
+        """Finds a user based on arbitrary keyword arguments"""
+        query = self._session.query(User)
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise InvalidRequestError
+            query = query.filter(getattr(User, key) == value)
+        result = query.one()
+        return result
