@@ -51,3 +51,12 @@ class DB:
             query = query.filter(getattr(User, key) == value)
         result = query.one()
         return result
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Updates a user based on arbitrary kwargs"""
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
