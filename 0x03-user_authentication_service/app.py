@@ -16,10 +16,10 @@ def index():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users() -> Response | tuple[Response, int]:
+def users():
     """Route for registering users"""
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.form['email']
+    password = request.form['password']
     try:
         new_user = AUTH.register_user(email, password)
         return jsonify({'email': new_user.email, 'message': 'user created'})
