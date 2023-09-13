@@ -49,7 +49,9 @@ class DB:
             if not hasattr(User, key):
                 raise InvalidRequestError
             query = query.filter(getattr(User, key) == value)
-        result = query.one()
+        result = query.first()
+        if not result:
+            raise NoResultFound
         return result
 
     def update_user(self, user_id: int, **kwargs) -> None:
