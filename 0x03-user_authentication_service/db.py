@@ -44,11 +44,10 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """Finds a user based on arbitrary keyword arguments"""
-        query = self._session.query(User)
         for key, value in kwargs.items():
             if not hasattr(User, key):
                 raise InvalidRequestError
-            query = query.filter(getattr(User, key) == value)
+        query = self._session.query(User).filter_by(**kwargs)
         result = query.first()
         if not result:
             raise NoResultFound
