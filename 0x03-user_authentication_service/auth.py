@@ -75,7 +75,7 @@ class Auth:
         """Updates a users password"""
         try:
             user = self._db.find_user_by(reset_token=reset_token)
-            user.hashed_password = _hash_password(password)
+            user.hashed_password = str(_hash_password(password))
             user.reset_token = None
         except NoResultFound:
             raise ValueError
