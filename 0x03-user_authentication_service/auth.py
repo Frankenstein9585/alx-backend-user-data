@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """auth.py for Authentication"""
-from bcrypt import hashpw, gensalt, checkpw
-from sqlalchemy.orm.exc import NoResultFound
 
+
+from bcrypt import hashpw, gensalt, checkpw
 from db import DB
+from sqlalchemy.orm.exc import NoResultFound
 from user import User
+import uuid
 
 
 class Auth:
@@ -37,3 +39,7 @@ class Auth:
 def _hash_password(password: str) -> bytes:
     """Hashes a password using bcrypt"""
     return hashpw(password.encode('utf-8'), gensalt())
+
+
+def _generate_uuid() -> str:
+    return str(uuid.uuid4())
