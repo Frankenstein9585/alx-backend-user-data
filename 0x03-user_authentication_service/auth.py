@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """auth.py for Authentication"""
 from bcrypt import hashpw, gensalt, checkpw
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 
 from db import DB
 from user import User
@@ -37,3 +37,16 @@ class Auth:
 def _hash_password(password: str) -> bytes:
     """Hashes a password using bcrypt"""
     return hashpw(password.encode('utf-8'), gensalt())
+
+
+email = 'bob@bob.com'
+password = 'MyPwdOfBob'
+auth = Auth()
+
+auth.register_user(email, password)
+
+print(auth.valid_login(email, password))
+
+print(auth.valid_login(email, "WrongPwd"))
+
+print(auth.valid_login("unknown@email", password))
