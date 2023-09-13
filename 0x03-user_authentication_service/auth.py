@@ -37,16 +37,3 @@ class Auth:
 def _hash_password(password: str) -> bytes:
     """Hashes a password using bcrypt"""
     return hashpw(password.encode('utf-8'), gensalt())
-
-
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
-
-auth.register_user(email, password)
-
-print(auth.valid_login(email, password))
-
-print(auth.valid_login(email, "WrongPwd"))
-
-print(auth.valid_login("unknown@email", password))
