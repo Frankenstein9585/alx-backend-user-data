@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """auth.py for Authentication"""
 
-
 from bcrypt import hashpw, gensalt, checkpw
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
@@ -34,6 +33,14 @@ class Auth:
             return False
         except NoResultFound:
             return False
+
+    def create_session(self, email: str) -> str:
+        try:
+            user = self._db.find_user_by(email=email)
+            user.session_id = _generate_uuid()
+            return user.session_id
+        except NoResultFound:
+            return None
 
 
 def _hash_password(password: str) -> bytes:
