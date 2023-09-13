@@ -18,12 +18,10 @@ class Auth:
         """Registers a User"""
         try:
             user = self._db.find_user_by(email=email)
-            if user:
-                raise ValueError('User {} already exists'.format(user.email))
+            raise ValueError('User {} already exists'.format(user.email))
         except NoResultFound:
             hashed_password = _hash_password(password)
-            new_user = self._db.add_user(email, hashed_password)
-            return new_user
+            self._db.add_user(email, hashed_password)
 
     def valid_login(self, email, password) -> bool:
         """Validates login details"""
