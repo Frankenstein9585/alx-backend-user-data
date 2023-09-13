@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """A Flask Application"""
+from typing import Tuple
+
 from auth import Auth
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -14,7 +16,7 @@ def index():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> Response | tuple[Response, int]:
     """Route for registering users"""
     email = request.form.get('email')
     password = request.form.get('password')
@@ -22,9 +24,7 @@ def users():
         new_user = AUTH.register_user(email, password)
         return jsonify({'email': new_user.email, 'message': 'user created'})
     except ValueError:
-        response = jsonify({'message': 'email already registered'})
-        response.status_code = 400
-        return response
+        return jsonify({'message': 'email already registered'}), 400
 
 
 if __name__ == '__main__':
