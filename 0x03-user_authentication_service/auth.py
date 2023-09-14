@@ -76,13 +76,16 @@ class Auth:
             return None
         try:
             user = self._db.find_user_by(reset_token=reset_token)
+            print(user.hashed_password)
         except NoResultFound:
             raise ValueError
 
-        hashed_password = _hash_password(password).decode('utf-8')
+        hashed_password = _hash_password(password)
         self._db.update_user(user_id=user.id,
                              hashed_password=hashed_password,
                              reset_token=None)
+
+        print(user.hashed_password)
 
 
 def _hash_password(password: str) -> bytes:
